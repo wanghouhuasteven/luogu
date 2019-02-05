@@ -1,3 +1,4 @@
+// luogu-judger-enable-o2
 #include <bits/stdc++.h>
 
 int main()
@@ -7,21 +8,29 @@ int main()
     int conv = 0;
     int bank = 0;
     int tobank;
+    int result;
+    bool flag = true;
     for(int i=0;i<12;i++)
     {
         std::cin>>preval;
-        if(300 - preval + conv >= 100)
+        conv += 300 - preval;
+        if(conv >= 100)
         {
-            tobank = 300-preval+conv-((300-preval+conv)%100 + 100);
-            conv = conv - tobank;
-            bank = bank + tobank;
+            tobank = conv - conv%100;
+            conv -= tobank;
+            bank += tobank;
         }
-        if(300 - preval + conv < 0) 
+        if(conv < 0) 
         {
-            std::cout<<i + 1;
-            return 0;
+            conv = 0;
+            if(flag) result = -(i + 1);
+            flag = false;
         }
     }
-    std::cout<<bank * 1.2;
+    if(flag)
+    {
+        result = bank * 1.2 + conv;
+    }
+    std::cout<<result;
     return 0;
 }
